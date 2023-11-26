@@ -1,0 +1,45 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricardo.web.dao.TeamDAO">
+
+    <resultMap id="TeamResultMap" type="com.ricardo.web.dto.TeamDO">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="alias" property="alias" />
+        <result column="industry" property="industry" />
+        <result column="logo" property="logo" />
+        <result column="link" property="link" />
+        <result column="gmt_created" property="gmtCreated" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <insert id="insertTeam" parameterType="com.ricardo.web.dto.TeamDO">
+        INSERT INTO team (name, alias, industry, logo, link, gmt_created, gmt_modified)
+        VALUES (#{name}, #{alias}, #{industry}, #{logo}, #{link}, now(), now())
+    </insert>
+
+    <update id="updateTeam" parameterType="com.ricardo.web.dto.TeamDO">
+        UPDATE team
+        SET name = #{name}, alias = #{alias}, industry = #{industry}, logo = #{logo}, link = #{link}, gmt_modified = now()
+        WHERE id = #{id}
+    </update>
+
+    <select id="findTeamById" parameterType="long" resultMap="TeamResultMap">
+        SELECT * FROM team
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAllTeams" resultMap="TeamResultMap">
+        SELECT * FROM team
+    </select>
+
+    <delete id="deleteTeam" parameterType="long">
+        DELETE FROM team
+        WHERE id = #{id}
+    </delete>
+
+    <select id="findTeamByName" parameterType="String" resultMap="TeamResultMap">
+        SELECT * FROM team
+        WHERE name = #{name}
+    </select>
+
+</mapper>

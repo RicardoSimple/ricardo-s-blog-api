@@ -1,0 +1,40 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricardo.web.dao.ResumeDAO">
+
+    <resultMap id="ResumeResultMap" type="com.ricardo.web.dto.ResumeDO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="status" property="status"/>
+        <!-- 其他字段映射 -->
+    </resultMap>
+
+    <insert id="insertResume" parameterType="com.ricardo.web.dto.ResumeDO">
+        INSERT INTO resume (user_id, status, description, requirement_salary_circle, requirement_work_type,
+                            requirement_work_schedule, requirement_industry, requirement_min_salary, requirement_max_salary)
+        VALUES (#{userId}, #{status}, #{description}, #{requirement.salaryCircle}, #{requirement.workType},
+                #{requirement.workSchedule}, #{requirement.industry}, #{requirement.minSalary}, #{requirement.maxSalary})
+    </insert>
+
+    <update id="updateResume" parameterType="com.ricardo.web.dto.ResumeDO">
+        UPDATE resume
+        SET user_id = #{userId}, status = #{status}, description = #{description},
+            requirement_salary_circle = #{requirement.salaryCircle}, requirement_work_type = #{requirement.workType},
+            requirement_work_schedule = #{requirement.workSchedule}, requirement_industry = #{requirement.industry},
+            requirement_min_salary = #{requirement.minSalary}, requirement_max_salary = #{requirement.maxSalary}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findResumeById" parameterType="long" resultType="com.ricardo.web.dto.ResumeDO">
+        SELECT * FROM resume
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAllResumes" resultType="com.ricardo.web.dto.ResumeDO">
+        SELECT * FROM resume
+    </select>
+
+    <!-- 添加其他查询方法的映射 -->
+
+</mapper>

@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricardo.web.dao.ProjectExperienceDAO">
+
+    <insert id="insertProjectExperience" parameterType="com.ricardo.web.dto.ProjectExperienceDO">
+        INSERT INTO project_experience (resume_id, start_date, end_date, title, content, result)
+        VALUES (#{resumeId}, #{startDate}, #{endDate}, #{title}, #{content}, #{result})
+    </insert>
+
+    <update id="updateProjectExperience" parameterType="com.ricardo.web.dto.ProjectExperienceDO">
+        UPDATE project_experience
+        SET resume_id = #{resumeId}, start_date = #{startDate}, end_date = #{endDate},
+            title = #{title}, content = #{content}, result = #{result}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findProjectExperienceById" parameterType="long" resultType="com.ricardo.web.dto.ProjectExperienceDO">
+        SELECT * FROM project_experience
+        WHERE id = #{id}
+    </select>
+
+    <select id="findProjectExperiencesByResumeId" parameterType="long" resultType="com.ricardo.web.dto.ProjectExperienceDO">
+        SELECT * FROM project_experience
+        WHERE resume_id = #{resumeId}
+    </select>
+
+    <!-- 可添加其他查询方法的映射 -->
+
+</mapper>

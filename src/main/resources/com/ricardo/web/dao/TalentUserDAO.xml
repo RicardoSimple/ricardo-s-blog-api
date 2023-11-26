@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricardo.web.dao.TalentUserDAO">
+    <resultMap id="TalentUserResultMap" type="com.ricardo.web.dto.TalentUserDO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="nickname" property="nickName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="email" property="email"/>
+        <result column="status" property="status"/>
+        <result column="education" property="education"/>
+        <result column="gmt_created" property="gmtCreated"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <insert id="insertTalentUser" parameterType="com.ricardo.web.dto.TalentUserDO">
+        INSERT INTO talent_user (name, phone, nickname, avatar, email, status,pwd, education,gmt_created,gmt_modified)
+        VALUES (#{name}, #{phone}, #{nickName}, #{avatar}, #{email}, #{status},#{pwd}, #{education},now(),now())
+    </insert>
+
+    <update id="updateTalentUser" parameterType="com.ricardo.web.dto.TalentUserDO">
+        UPDATE talent_user
+        SET name = #{name}, phone = #{phone}, nickname = #{nickName}, avatar = #{avatar}, email = #{email},
+            status = #{status}, education = #{education},gmt_modified = now()
+        WHERE id = #{id}
+    </update>
+
+    <select id="findTalentUserById" parameterType="long" resultType="com.ricardo.web.dto.TalentUserDO">
+        SELECT * FROM talent_user
+        WHERE id = #{id}
+    </select>
+
+    <select id="findTalentUserByUsername" parameterType="String" resultType="com.ricardo.web.dto.TalentUserDO">
+        SELECT * FROM talent_user
+        WHERE name = #{username}
+    </select>
+
+    <delete id="deleteTalentUser" parameterType="long">
+        DELETE FROM talent_user
+        WHERE id = #{id}
+    </delete>
+
+    <select id="findTalentUserByPhone" parameterType="String" resultType="com.ricardo.web.dto.TalentUserDO">
+        SELECT * FROM talent_user
+        WHERE phone = #{phone}
+    </select>
+
+    <select id="findAllTalentUsers"  resultType="java.util.List">
+        SELECT * FROM talent_user
+    </select>
+
+</mapper>
