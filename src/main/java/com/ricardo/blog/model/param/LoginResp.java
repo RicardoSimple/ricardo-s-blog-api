@@ -1,7 +1,5 @@
 package com.ricardo.blog.model.param;
 
-import com.ricardo.blog.model.RefreshToken;
-import com.ricardo.blog.model.TokenInfo;
 import com.ricardo.blog.model.User;
 import lombok.Data;
 

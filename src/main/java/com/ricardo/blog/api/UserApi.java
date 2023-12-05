@@ -17,8 +17,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserApi {
     public static final Logger LOGGER = LoggerFactory.getLogger(UserApi.class);
 
@@ -57,7 +55,7 @@ public class UserApi {
         // 加密
         String encrypt = PasswordUtil.encrypt(param.getPwd(), Const.PASSWORD, PasswordUtil.getStaticSalt());
         userService.insertOrUpdateUser(Convert.convert(User.class,param),encrypt);
-        return Result.success(null);
+        return Result.success("注册成功");
     }
 
     @PostMapping("/login")

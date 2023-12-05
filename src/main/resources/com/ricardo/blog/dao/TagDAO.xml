@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricardo.blog.dao.TagDAO">
+
+    <!-- 插入标签 -->
+    <insert id="insertTag" parameterType="com.ricardo.blog.dto.TagDO">
+        INSERT INTO tags (name, gmt_modified, gmt_created)
+        VALUES (#{name}, now(), now())
+    </insert>
+
+    <!-- 更新标签 -->
+    <update id="updateTag" parameterType="com.ricardo.blog.dto.TagDO">
+        UPDATE tags
+        SET name = #{name}, gmt_modified = now()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 查询所有标签 -->
+    <select id="findAllTag" resultType="com.ricardo.blog.dto.TagDO">
+        SELECT * FROM tags
+    </select>
+
+    <!-- 根据ID查询标签 -->
+    <select id="findTagById" resultType="com.ricardo.blog.dto.TagDO" parameterType="long">
+        SELECT * FROM tags WHERE id = #{id}
+    </select>
+
+    <!-- 根据名称查询标签 -->
+    <select id="findTagByName" resultType="com.ricardo.blog.dto.TagDO" parameterType="String">
+        SELECT * FROM tags WHERE name = #{name}
+    </select>
+
+</mapper>

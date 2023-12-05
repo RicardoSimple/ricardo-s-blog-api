@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricardo.blog.dao.CommentDAO">
+
+    <!-- resultMap -->
+    <resultMap id="commentResultMap" type="com.ricardo.blog.dto.CommentDO">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="article_id" property="articleId" />
+        <result column="parent_id" property="parentId" />
+        <result column="content" property="content" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="gmt_created" property="gmtCreated" />
+    </resultMap>
+    <!-- 插入评论 -->
+    <insert id="insertComment"  parameterType="com.ricardo.blog.dto.CommentDO">
+        INSERT INTO comments (user_id, article_id, parent_id, content, gmt_modified, gmt_created)
+        VALUES (#{userId}, #{articleId}, #{parentId}, #{content}, now(), now())
+    </insert>
+
+    <!-- 更新评论 -->
+    <update id="updateComment" parameterType="com.ricardo.blog.dto.CommentDO">
+        UPDATE comments
+        SET parent_id = #{parentId},
+            content = #{content}, gmt_modified = now()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据文章ID查询评论 -->
+    <select id="findCommentByArticleId" parameterType="long" resultMap="commentResultMap">
+        SELECT * FROM comments WHERE article_id = #{articleId}
+    </select>
+
+</mapper>

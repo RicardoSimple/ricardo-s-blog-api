@@ -12,4 +12,6 @@ public class TokenConfig {
 
     @Value("${ricardo.blog.token.secret}")
     public String secret;
+
+
 }
