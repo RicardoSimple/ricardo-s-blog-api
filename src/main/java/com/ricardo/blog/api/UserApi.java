@@ -101,7 +101,7 @@ public class UserApi {
             // 过期时间
             response.setHeader(Const.ATTRIBUTE_KEY,token);
             return Result.success(token);
-        } catch (ExpiredJwtException e) {
+        } catch (Exception e) {
             LOGGER.warn("token已过期，转换失败，error:",e);
             return Result.fail(Code.FAIL_NO_AUTH,"token不正确或已过期");
         }

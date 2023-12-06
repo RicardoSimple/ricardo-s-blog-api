@@ -36,6 +36,10 @@
         SELECT * FROM articles WHERE id = #{id}
     </select>
 
+    <select id="findAllArticle" resultMap="articleResultMap">
+        SELECT * FROM articles
+    </select>
+
     <!-- 删除文章 -->
     <delete id="deleteArticle" parameterType="long">
         DELETE FROM articles WHERE id = #{id}

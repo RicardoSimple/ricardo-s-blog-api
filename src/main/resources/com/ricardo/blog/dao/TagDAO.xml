@@ -30,4 +30,10 @@
         SELECT * FROM tags WHERE name = #{name}
     </select>
 
+    <!-- 根据文章ID查询相关标签 -->
+    <select id="findTagsByArticleId" resultType="com.ricardo.blog.dto.TagDO" parameterType="long">
+        SELECT t.* FROM tags t
+                            INNER JOIN article_tags at ON t.id = at.tag_id
+        WHERE at.article_id = #{articleId}
+    </select>
 </mapper>

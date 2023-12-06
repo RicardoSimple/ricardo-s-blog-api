@@ -12,5 +12,7 @@ public interface ArticleDAO {
 
     List<ArticleDO> findArticleByUserId(long userId);
     ArticleDO findArticleById(long id);
+
+    List<ArticleDO> findAllArticle();
     int deleteArticle(long id);
 }

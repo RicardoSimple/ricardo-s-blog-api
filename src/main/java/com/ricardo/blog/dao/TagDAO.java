@@ -11,6 +11,7 @@ public interface TagDAO {
     void updateTag(TagDO tagDO);
 
     List<TagDO> findAllTag();
-    TagDO findTagById();
-    TagDO findTagByName();
+    TagDO findTagById(long id);
+    List<TagDO> findTagsByArticleId(long id);
+    TagDO findTagByName(String name);
 }
