@@ -12,5 +12,5 @@ public class RegisterParam {
     private String name;
     private String email;
     private String pwd;
-    private String avatar;
+    // private String avatar;
 }

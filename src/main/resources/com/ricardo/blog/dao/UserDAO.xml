@@ -12,13 +12,14 @@
         <result column="email" property="email"/>
         <result column="pwd" property="pwd"/>
         <result column="gender" property="gender"/>
+        <result column="slogan" property="slogan"/>
         <result column="gmt_created" property="gmtCreated"/>
         <result column="gmt_modified" property="gmtModified"/>
     </resultMap>
 
     <insert id="insertUser" parameterType="com.ricardo.blog.dto.UserDO">
-        INSERT INTO user (name, phone, nick_name,user_name, avatar, email,pwd, gender,gmt_created,gmt_modified)
-        VALUES (#{name}, #{phone}, #{nickName},#{userName}, #{avatar}, #{email},#{pwd}, #{gender},now(),now())
+        INSERT INTO user (name, phone, nick_name,user_name, avatar, email,pwd, gender,slogan,gmt_created,gmt_modified)
+        VALUES (#{name}, #{phone}, #{nickName},#{userName}, #{avatar}, #{email},#{pwd}, #{gender},#{slogan},now(),now())
     </insert>
 
     <update id="updateUser" parameterType="com.ricardo.blog.dto.UserDO">

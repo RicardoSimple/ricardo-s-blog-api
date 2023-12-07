@@ -11,6 +11,7 @@ public class UserDO {
     private String userName;
     private String nickName;
     private String gender;
+    private String slogan;
     private String name;
     private String email;
     private String pwd;

@@ -8,6 +8,7 @@ public class User {
     private String userName;
     private String phone;
     private String nickName;
+    private String slogan;
     private String gender;
     private String name;
     private String email;

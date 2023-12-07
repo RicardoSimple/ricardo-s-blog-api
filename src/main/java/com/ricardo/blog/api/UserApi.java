@@ -14,13 +14,16 @@ import com.ricardo.blog.service.TokenService;
 import com.ricardo.blog.service.UserService;
 import com.ricardo.blog.util.*;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -32,12 +35,13 @@ public class UserApi {
     private TokenConfig tokenConfig;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private GitHubFileUploader fileUploader;
     @Autowired
     private TokenService tokenService;
 
     @PostMapping("/register")
-    public Result register(@RequestBody RegisterParam param, HttpServletRequest request){
+    public Result register(RegisterParam param, @RequestPart("avatar") MultipartFile file, HttpServletRequest request) throws IOException {
         if(StringUtils.isNullAndBlank(param.getUserName())||StringUtils.isNullAndBlank(param.getPhone())){
             return Result.fail(Code.FAIL_ERROR_PARAM,"手机号或用户名为空");
         }
@@ -54,7 +58,15 @@ public class UserApi {
         // 注册逻辑
         // 加密
         String encrypt = PasswordUtil.encrypt(param.getPwd(), Const.PASSWORD, PasswordUtil.getStaticSalt());
-        userService.insertOrUpdateUser(Convert.convert(User.class,param),encrypt);
+        User user = Convert.convert(User.class, param);
+        // getAvatar url
+        Base64 base64Encoder = new Base64();
+        byte[] imageBytes = file.getBytes();
+        // 上传图片
+        String url = fileUploader.uploadFile(file.getOriginalFilename(), base64Encoder.encodeToString(imageBytes));
+
+        user.setAvatar(url);
+        userService.insertOrUpdateUser(user,encrypt);
         return Result.success("注册成功");
     }
 
