@@ -8,14 +8,15 @@
         <result column="user_id" property="userId" />
         <result column="article_id" property="articleId" />
         <result column="parent_id" property="parentId" />
+        <result column="to_comment_id" property="toCommentId" />
         <result column="content" property="content" />
         <result column="gmt_modified" property="gmtModified" />
         <result column="gmt_created" property="gmtCreated" />
     </resultMap>
     <!-- 插入评论 -->
     <insert id="insertComment"  parameterType="com.ricardo.blog.dto.CommentDO">
-        INSERT INTO comments (user_id, article_id, parent_id, content, gmt_modified, gmt_created)
-        VALUES (#{userId}, #{articleId}, #{parentId}, #{content}, now(), now())
+        INSERT INTO comments (user_id, article_id, parent_id,to_comment_id, content, gmt_modified, gmt_created)
+        VALUES (#{userId}, #{articleId}, #{parentId},#{toCommentId}, #{content}, now(), now())
     </insert>
 
     <!-- 更新评论 -->
@@ -29,6 +30,10 @@
     <!-- 根据文章ID查询评论 -->
     <select id="findCommentByArticleId" parameterType="long" resultMap="commentResultMap">
         SELECT * FROM comments WHERE article_id = #{articleId}
+    </select>
+
+    <select id="getCommentCountOfArticle" parameterType="long" resultType="int">
+        SELECT count(*) FROM comments WHERE article_id = #{articleId}
     </select>
 
 </mapper>

@@ -9,13 +9,14 @@ import java.time.LocalDateTime;
 public class Comment {
 
     private long id;
-    // 关联用户
+    // 发布用户
     private long userId;
     // 关联文章
     private long articleId;
-    // 关联评论 仅子评论
+    // 顶层评论 仅子评论
     private long parentId;
-
+    // 回复评论id 仅子评论
+    private long toCommentId;
     private String content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

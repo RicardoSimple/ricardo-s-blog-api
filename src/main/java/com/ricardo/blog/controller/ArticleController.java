@@ -49,4 +49,5 @@ public class ArticleController {
         List<Article> articles = articleService.getArticleByUserId(id);
         return Result.success(articles);
     }
+
 }

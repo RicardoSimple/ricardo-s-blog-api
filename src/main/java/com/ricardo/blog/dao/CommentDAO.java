@@ -11,5 +11,6 @@ public interface CommentDAO {
     void updateComment(CommentDO commentDO);
 
     List<CommentDO> findCommentByArticleId(long articleId);
+    int getCommentCountOfArticle(long articleId);
 
 }

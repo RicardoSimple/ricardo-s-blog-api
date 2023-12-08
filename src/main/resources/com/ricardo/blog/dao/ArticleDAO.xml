@@ -7,15 +7,19 @@
         <result column="user_id" property="userId" />
         <result column="title" property="title" />
         <result column="content" property="content" />
+        <result column="is_hot" property="isHot" />
+        <result column="is_top" property="isTop" />
+        <result column="summary" property="summary" />
         <result column="view_count" property="viewCount" />
+        <result column="like_count" property="likeCount" />
         <result column="is_published" property="isPublished" />
         <result column="gmt_modified" property="gmtModified" />
         <result column="gmt_created" property="gmtCreated" />
     </resultMap>
     <!-- 插入文章 -->
     <insert id="insertArticle" parameterType="com.ricardo.blog.dto.ArticleDO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO articles (user_id, title, content,is_published ,view_count, gmt_modified, gmt_created)
-        VALUES (#{userId}, #{title}, #{content},#{isPublished}, #{viewCount}, now(), now())
+        INSERT INTO articles (user_id, title, content,is_top,is_hot,summary,is_published,like_count ,view_count, gmt_modified, gmt_created)
+        VALUES (#{userId}, #{title}, #{content},#{isTop},#{isHot},#{summary},#{isPublished},#{likeCount}, #{viewCount}, now(), now())
     </insert>
 
     <!-- 更新文章 -->
@@ -45,4 +49,14 @@
         DELETE FROM articles WHERE id = #{id}
     </delete>
 
+    <update id="incrementViewCount" parameterType="long">
+        UPDATE articles
+        SET view_count = view_count + 1
+        WHERE id = #{id}
+    </update>
+    <update id="incrementLikeCount" parameterType="long">
+        UPDATE articles
+        SET like_count = like_count + 1
+        WHERE id = #{id}
+    </update>
 </mapper>
