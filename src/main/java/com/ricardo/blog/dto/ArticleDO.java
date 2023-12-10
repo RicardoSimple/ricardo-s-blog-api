@@ -12,7 +12,7 @@ public class ArticleDO {
     private String summary;
 
     private boolean isTop;
-
+    private String banner;
     private boolean isHot;
     private String content;
     private int viewCount;

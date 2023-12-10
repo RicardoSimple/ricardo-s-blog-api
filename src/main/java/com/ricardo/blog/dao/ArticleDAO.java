@@ -14,6 +14,7 @@ public interface ArticleDAO {
     ArticleDO findArticleById(long id);
 
     List<ArticleDO> findAllArticle();
+    List<ArticleDO> findAllPublishedArticle();
     int deleteArticle(long id);
     void incrementViewCount(long id);  // 新添加的方法
     void incrementLikeCount(long id);  // 新添加的方法

@@ -15,6 +15,6 @@ public class WebConfiguration implements WebMvcConfigurer {
                 "/api/user/register",
                 "/api/user/check",
                 "/api/tag/list",
-                "/api/static/image/aliyun");
+                "/api/article/hot");
     }
 }

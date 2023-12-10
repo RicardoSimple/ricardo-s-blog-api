@@ -55,4 +55,10 @@ public class ArticleController {
         List<Article> results = articleService.getHotArticle();
         return Result.success(results);
     }
+
+    @GetMapping("/focus")
+    public Result getFocusArticle(){
+        List<Article> results = articleService.getFocusArticle();
+        return Result.success(results);
+    }
 }

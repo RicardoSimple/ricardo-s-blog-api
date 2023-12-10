@@ -17,7 +17,7 @@ public class Article {
     private boolean isTop;
     private String content;
     private int commentsCount;
-
+    private String banner;
     private int likeCount;
     private int viewCount;
     private List<Tag> tags;

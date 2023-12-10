@@ -19,4 +19,6 @@ public interface ArticleService {
     List<Article> getArticleByUserId(long id);
 
     List<Article> getHotArticle();
+
+    List<Article> getFocusArticle();
 }

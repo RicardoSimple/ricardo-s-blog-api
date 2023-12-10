@@ -8,7 +8,6 @@ import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.ricardo.blog.config.AliyunConfig;
-import okhttp3.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,11 +104,12 @@ public class AliyunFileUploader {
 
             //文件名称
             String fileName = file.getOriginalFilename();
+            String name = generateUniqueFileName(fileName);
             // meta设置请求头
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentType("image/jpg");
-            ossClient.putObject(BUCKET_NAME, fileName, in, meta);
-            return "https://ricblogimage.oss-cn-shanghai.aliyuncs.com/"+fileName;
+            ossClient.putObject(BUCKET_NAME, name, in, meta);
+            return "https://ricblogimage.oss-cn-shanghai.aliyuncs.com/"+name;
         }catch (IOException e){
             e.printStackTrace();
             return null;

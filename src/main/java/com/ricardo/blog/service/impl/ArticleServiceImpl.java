@@ -134,10 +134,21 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> getHotArticle() {
-        List<ArticleDO> articleDOS = articleDAO.findAllArticle();
+        List<ArticleDO> articleDOS = articleDAO.findAllPublishedArticle();
         List<Article> results = new ArrayList<>();
 
         for (ArticleDO articleDO : articleDOS) {
+            results.add(contactArticleAndTags(articleDO));
+        }
+        return results;
+    }
+
+    @Override
+    public List<Article> getFocusArticle() {
+        List<ArticleDO> allArticle = articleDAO.findAllArticle();
+        List<Article> results = new ArrayList<>();
+
+        for (ArticleDO articleDO : allArticle) {
             results.add(contactArticleAndTags(articleDO));
         }
         return results;
