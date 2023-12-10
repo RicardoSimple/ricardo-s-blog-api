@@ -17,4 +17,6 @@ public interface ArticleService {
     List<Article> getAllArticle();
 
     List<Article> getArticleByUserId(long id);
+
+    List<Article> getHotArticle();
 }

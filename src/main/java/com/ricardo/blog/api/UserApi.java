@@ -37,6 +37,9 @@ public class UserApi {
     private UserService userService;
     @Autowired
     private GitHubFileUploader fileUploader;
+
+    @Autowired
+    private AliyunFileUploader aliyunFileUploader;
     @Autowired
     private TokenService tokenService;
 
@@ -63,8 +66,8 @@ public class UserApi {
         Base64 base64Encoder = new Base64();
         byte[] imageBytes = file.getBytes();
         // 上传图片
-        String url = fileUploader.uploadFile(file.getOriginalFilename(), base64Encoder.encodeToString(imageBytes));
-
+        // String url = fileUploader.uploadFile(file.getOriginalFilename(), base64Encoder.encodeToString(imageBytes));
+        String url = aliyunFileUploader.uploadObject(file);
         user.setAvatar(url);
         userService.insertOrUpdateUser(user,encrypt);
         return Result.success("注册成功");

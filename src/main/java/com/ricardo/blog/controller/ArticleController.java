@@ -50,4 +50,9 @@ public class ArticleController {
         return Result.success(articles);
     }
 
+    @GetMapping("/hot")
+    public Result getHotArticle(){
+        List<Article> results = articleService.getHotArticle();
+        return Result.success(results);
+    }
 }

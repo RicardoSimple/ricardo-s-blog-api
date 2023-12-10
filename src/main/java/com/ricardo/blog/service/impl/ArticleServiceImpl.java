@@ -132,6 +132,17 @@ public class ArticleServiceImpl implements ArticleService {
         return results;
     }
 
+    @Override
+    public List<Article> getHotArticle() {
+        List<ArticleDO> articleDOS = articleDAO.findAllArticle();
+        List<Article> results = new ArrayList<>();
+
+        for (ArticleDO articleDO : articleDOS) {
+            results.add(contactArticleAndTags(articleDO));
+        }
+        return results;
+    }
+
     private Article contactArticleAndTags(ArticleDO articleDO){
         List<TagDO> tagDOs = tagDAO.findTagsByArticleId(articleDO.getId());
         Article article = Convert.convert(Article.class, articleDO);
