@@ -4,6 +4,8 @@ import com.ricardo.blog.model.Article;
 import com.ricardo.blog.model.Result;
 import com.ricardo.blog.service.ArticleService;
 import com.ricardo.blog.util.Code;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +15,34 @@ import java.util.List;
 @RequestMapping("/api/article")
 public class ArticleController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArticleController.class);
     @Autowired
     private ArticleService articleService;
 
     @PostMapping("/add")
     public Result addArticle(@RequestBody Article article){
+
+
         boolean state = articleService.addArticle(article);
         if (!state){
             return Result.fail(Code.FAIL_ERROR_PARAM,"参数不正确");
         }
         return Result.success("添加成功");
+    }
+
+    @PostMapping("/update")
+    public Result updateArticle(@RequestBody Article article){
+        boolean state = articleService.updateArticle(article);
+        if (!state){
+            return Result.fail(Code.FAIL_ERROR_PARAM,"参数不正确");
+        }
+        return Result.success("修改成功");
+    }
+
+    @GetMapping("/delete")
+    public Result deleteArticle(@RequestParam long articleId){
+        articleService.deleteArticleWithTag(articleId);
+        return Result.success("删除成功");
     }
 
     @GetMapping("/get")

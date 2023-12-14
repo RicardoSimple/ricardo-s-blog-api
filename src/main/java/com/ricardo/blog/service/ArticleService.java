@@ -8,6 +8,8 @@ import java.util.List;
 public interface ArticleService {
     boolean addArticle(Article article);
 
+    boolean updateArticle(Article article);
+
     List<Tag> getTagList();
 
     boolean addTag(String name);
@@ -21,4 +23,6 @@ public interface ArticleService {
     List<Article> getHotArticle();
 
     List<Article> getFocusArticle();
+
+    void deleteArticleWithTag(long articleId);
 }

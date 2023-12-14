@@ -6,13 +6,13 @@ import com.ricardo.blog.dao.ArticlesTagsDAO;
 import com.ricardo.blog.dao.CommentDAO;
 import com.ricardo.blog.dao.TagDAO;
 import com.ricardo.blog.dto.ArticleDO;
-import com.ricardo.blog.dto.CommentDO;
 import com.ricardo.blog.dto.TagDO;
 import com.ricardo.blog.model.Article;
 import com.ricardo.blog.model.Tag;
 import com.ricardo.blog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +31,37 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticlesTagsDAO articlesTagsDAO;
 
     @Override
+    @Transactional
     public boolean addArticle(Article article) {
+        List<Tag> tags = article.getTags();
+        for (Tag tag : tags) {
+            if (tag.getId()<=0){
+                return false;
+            }
+        }
+        String replaceTag = handleSummary(article.getContent());
 
-        // 判断参数
-        if (article.getUserId()<=0){
+        // 存
+        ArticleDO articleDO = Convert.convert(ArticleDO.class, article);
+        articleDO.setSummary(replaceTag);
+        articleDO.setHot(false);
+        articleDO.setTop(false);
+        articleDAO.insertArticle(articleDO);
+        // 判断是否需要存Tags
+        if (tags.size()>0){
+            long id = articleDO.getId();
+            // 存关联表
+            for (Tag tag : tags) {
+                articlesTagsDAO.insertArticleTag(id,tag.getId());
+            }
+        }
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateArticle(Article article) {
+        if(article.getId()<=0){
             return false;
         }
         List<Tag> tags = article.getTags();
@@ -43,31 +70,13 @@ public class ArticleServiceImpl implements ArticleService {
                 return false;
             }
         }
-        // todo summary
-        String summary = article.getContent();
-        String replaceTag = summary
-                .replace("<p>","").replace("</p>","")
-                .replace("<h1>","").replace("</h1>","")
-                .replace("<h2>","").replace("</h2>","")
-                .replace("<h3>","").replace("</h3>","")
-                .replace("<h4>","").replace("</h4>","")
-                .replace("<h5>","").replace("</h5>","")
-                .replace("<h5>","").replace("</h5>","")
-                .replace("<h5>","").replace("</h5>","")
-                .replace("<br>","");
-
-        // 限制长度
-        if (replaceTag.length()>200){
-            replaceTag = replaceTag.substring(0,200)+"...";
-        }
-        // todo 使用事务 防止数据错误
-        // 存
+        // 删除以前的articletag
+        articlesTagsDAO.deleteArticleTags(article.getId());
         ArticleDO articleDO = Convert.convert(ArticleDO.class, article);
-        articleDO.setSummary(replaceTag);
-        articleDO.setHot(false);
-        articleDO.setTop(false);
-        articleDAO.insertArticle(articleDO);
-        // 判断是否需要存Tags
+        articleDO.setSummary(handleSummary(article.getContent()));
+        // 更新
+        articleDAO.updateArticle(articleDO);
+        // 重新添加tags
         if (tags.size()>0){
             long id = articleDO.getId();
             // 存关联表
@@ -152,6 +161,33 @@ public class ArticleServiceImpl implements ArticleService {
             results.add(contactArticleAndTags(articleDO));
         }
         return results;
+    }
+
+    @Override
+    @Transactional
+    public void deleteArticleWithTag(long articleId) {
+        // 先删除articleTag
+        articlesTagsDAO.deleteArticleTags(articleId);
+        articleDAO.deleteArticle(articleId);
+    }
+
+    private String handleSummary(String content){
+        String replaceTag = content
+                .replace("<p>","").replace("</p>","")
+                .replace("<h1>","").replace("</h1>","")
+                .replace("<h2>","").replace("</h2>","")
+                .replace("<h3>","").replace("</h3>","")
+                .replace("<h4>","").replace("</h4>","")
+                .replace("<h5>","").replace("</h5>","")
+                .replace("<h5>","").replace("</h5>","")
+                .replace("<h5>","").replace("</h5>","")
+                .replace("<br>","");
+
+        // 限制长度
+        if (replaceTag.length()>200){
+            replaceTag = replaceTag.substring(0,200)+"...";
+        }
+        return replaceTag;
     }
 
     private Article contactArticleAndTags(ArticleDO articleDO){

@@ -16,6 +16,7 @@ public class UserDO {
     private String email;
     private String pwd;
     private String avatar;
+    private String background;
     private LocalDateTime gmtCreated;
     private LocalDateTime gmtModified;
 }

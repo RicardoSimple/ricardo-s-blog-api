@@ -26,7 +26,7 @@
     <!-- 更新文章 -->
     <update id="updateArticle"  parameterType="com.ricardo.blog.dto.ArticleDO">
         UPDATE articles
-        SET title = #{title}, content = #{content},is_published = #{isPublished},
+        SET title = #{title},summary = #{summary},banner=#{banner}, content = #{content},is_published = #{isPublished},
             view_count = #{viewCount}, gmt_modified =now()
         WHERE id = #{id}
     </update>

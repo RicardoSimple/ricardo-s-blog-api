@@ -9,6 +9,7 @@
         <result column="nick_name" property="nickName"/>
         <result column="user_name" property="userName"/>
         <result column="avatar" property="avatar"/>
+        <result column="background" property="background"/>
         <result column="email" property="email"/>
         <result column="pwd" property="pwd"/>
         <result column="gender" property="gender"/>
@@ -18,13 +19,13 @@
     </resultMap>
 
     <insert id="insertUser" parameterType="com.ricardo.blog.dto.UserDO">
-        INSERT INTO user (name, phone, nick_name,user_name, avatar, email,pwd, gender,slogan,gmt_created,gmt_modified)
-        VALUES (#{name}, #{phone}, #{nickName},#{userName}, #{avatar}, #{email},#{pwd}, #{gender},#{slogan},now(),now())
+        INSERT INTO user (name, phone, nick_name,user_name, avatar, background,email,pwd, gender,slogan,gmt_created,gmt_modified)
+        VALUES (#{name}, #{phone}, #{nickName},#{userName}, #{avatar},#{background}, #{email},#{pwd}, #{gender},#{slogan},now(),now())
     </insert>
 
     <update id="updateUser" parameterType="com.ricardo.blog.dto.UserDO">
         UPDATE user
-        SET name = #{name}, phone = #{phone}, nick_name = #{nickName}, avatar = #{avatar}, email = #{email},
+        SET name = #{name}, phone = #{phone}, nick_name = #{nickName}, background=#{background},avatar = #{avatar}, email = #{email},
             gender = #{role},gmt_modified = now()
         WHERE id = #{id}
     </update>
